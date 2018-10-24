@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/OpenBazaar/smart-contracts.svg?branch=master)](https://travis-ci.org/OpenBazaar/smart-contracts)
 <a href='https://coveralls.io/github/OpenBazaar/smart-contracts'><img src='https://coveralls.io/repos/github/OpenBazaar/smart-contracts/badge.svg' alt='Coverage Status' /></a>
 
-This repository contains all OpenBazaar smart contracts
+This repository contains all open bazaar smart contracts
 ## Getting Started
 
 It integrates with [Truffle](https://github.com/ConsenSys/truffle), an Ethereum development environment. Please install Truffle.
@@ -11,7 +11,7 @@ It integrates with [Truffle](https://github.com/ConsenSys/truffle), an Ethereum 
 npm install -g truffle
 
 ```
-Clone OpenBazaar-SmartContracts
+Clone OpenBazaar-SamrtContracts
 
 ```sh
 git clone https://github.com/OpenBazaar/smart-contracts.git
@@ -58,7 +58,3 @@ Test Coverage
 ```bash
 npm run coverage
 ```
-
-License
--------------------
-Openbazaar smart contracts are released under the [MIT License](LICENSE).

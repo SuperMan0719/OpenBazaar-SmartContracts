@@ -85,9 +85,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity 0.4.24;\n\nimport \"openzeppelin-solidity/contracts/math/SafeMath.sol\";\n/**\n * @title ERC20Basic\n * @dev Simpler version of ERC20 interface\n * @dev see https://github.com/ethereum/EIPs/issues/179\n */\ncontract ERC20Basic {\n    // Total amount of tokens\n    uint256 public totalSupply;\n  \n    function balanceOf(address _owner) public view returns (uint256 balance);\n  \n    function transfer(address _to, uint256 _amount) public returns (bool success);\n  \n    event Transfer(address indexed from, address indexed to, uint256 value);\n}\n\n/**\n * @title ERC20 interface\n * @dev see https://github.com/ethereum/EIPs/issues/20\n */\ncontract ERC20 is ERC20Basic {\n    function allowance(address _owner, address _spender) public view returns (uint256 remaining);\n  \n    function transferFrom(address _from, address _to, uint256 _amount) public returns (bool success);\n  \n    function approve(address _spender, uint256 _amount) public returns (bool success);\n  \n    event Approval(address indexed owner, address indexed spender, uint256 value);\n}\n\n/**\n * @title Basic token\n * @dev Basic version of StandardToken, with no allowances.\n */\ncontract BasicToken is ERC20Basic {\n    using SafeMath for uint256;\n\n    // balance in each address account\n    mapping(address => uint256) balances;\n\n  /**\n  * @dev transfer token for a specified address\n  * @param _to The address to transfer to.\n  * @param _amount The amount to be transferred.\n  */\n    function transfer(address _to, uint256 _amount) public returns (bool success) {\n        require(_to != address(0));\n        require(balances[msg.sender] >= _amount && _amount > 0 && balances[_to].add(_amount) > balances[_to]);\n\n        // SafeMath.sub will throw if there is not enough balance.\n        balances[msg.sender] = balances[msg.sender].sub(_amount);\n        balances[_to] = balances[_to].add(_amount);\n        emit Transfer(msg.sender, _to, _amount);\n        return true;\n    }\n\n  /**\n  * @dev Gets the balance of the specified address.\n  * @param _owner The address to query the the balance of.\n  * @return An uint256 representing the amount owned by the passed address.\n  */\n    function balanceOf(address _owner) public view returns (uint256 balance) {\n        return balances[_owner];\n    }\n\n}\n\n/**\n * @title Standard ERC20 token\n *\n * @dev Implementation of the basic standard token.\n * @dev https://github.com/ethereum/EIPs/issues/20\n */\ncontract StandardToken is ERC20, BasicToken {\n  \n  \n    mapping (address => mapping (address => uint256)) internal allowed;\n\n\n  /**\n   * @dev Transfer tokens from one address to another\n   * @param _from address The address which you want to send tokens from\n   * @param _to address The address which you want to transfer to\n   * @param _amount uint256 the amount of tokens to be transferred\n   */\n    function transferFrom(address _from, address _to, uint256 _amount) public returns (bool success) {\n        require(_to != address(0));\n        require(balances[_from] >= _amount);\n        require(allowed[_from][msg.sender] >= _amount);\n        require(_amount > 0 && balances[_to].add(_amount) > balances[_to]);\n\n        balances[_from] = balances[_from].sub(_amount);\n        balances[_to] = balances[_to].add(_amount);\n        allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);\n        emit Transfer(_from, _to, _amount);\n        return true;\n    }\n\n  /**\n   * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.\n   *\n   * Beware that changing an allowance with this method brings the risk that someone may use both the old\n   * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this\n   * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:\n   * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\n   * @param _spender The address which will spend the funds.\n   * @param _amount The amount of tokens to be spent.\n   */\n    function approve(address _spender, uint256 _amount) public returns (bool success) {\n        allowed[msg.sender][_spender] = _amount;\n        emit Approval(msg.sender, _spender, _amount);\n        return true;\n    }\n\n  /**\n   * @dev Function to check the amount of tokens that an owner allowed to a spender.\n   * @param _owner address The address which owns the funds.\n   * @param _spender address The address which will spend the funds.\n   * @return A uint256 specifying the amount of tokens still available for the spender.\n   */\n    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {\n        return allowed[_owner][_spender];\n    }\n\n}\n/**\n* @title Test Token\n*/\ncontract TestToken is StandardToken {\n    string public name ;\n    string public symbol ;\n    uint8 public decimals = 18 ;\n     \n    \n     /**\n     * @dev Constructor function to initialize the initial supply of token to the creator of the contract\n     * @param initialSupply The initial supply of tokens which will be fixed through out\n     * @param tokenName The name of the token\n     * @param tokenSymbol The symboll of the token\n     */\n    constructor(\n        uint256 initialSupply,\n        string tokenName,\n        string tokenSymbol) public {\n        totalSupply = initialSupply.mul( 10 ** uint256(decimals)); //Update total supply with the decimal amount\n        name = tokenName;\n        symbol = tokenSymbol;\n        balances[msg.sender] = totalSupply;\n         \n        // Emitting transfer event since assigning all tokens to the creator also corresponds to the transfer of tokens to the creator\n        emit Transfer(address(0), msg.sender, totalSupply);\n    }\n}\n",
-  "sourcePath": "/Users/austin/Documents/dev/ob/smart-contracts/contracts/test/TestToken.sol",
+  "sourcePath": "/home/sameep/freelancing-projects/toptal/open baazar/publicRepo/smart-contracts/contracts/test/TestToken.sol",
   "ast": {
-    "absolutePath": "/Users/austin/Documents/dev/ob/smart-contracts/contracts/test/TestToken.sol",
+    "absolutePath": "/home/sameep/freelancing-projects/toptal/open baazar/publicRepo/smart-contracts/contracts/test/TestToken.sol",
     "exportedSymbols": {
       "BasicToken": [
         4211
@@ -5173,7 +5173,7 @@
     "src": "0:5684:7"
   },
   "legacyAST": {
-    "absolutePath": "/Users/austin/Documents/dev/ob/smart-contracts/contracts/test/TestToken.sol",
+    "absolutePath": "/home/sameep/freelancing-projects/toptal/open baazar/publicRepo/smart-contracts/contracts/test/TestToken.sol",
     "exportedSymbols": {
       "BasicToken": [
         4211
@@ -10263,6 +10263,13 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2019-02-15T22:47:00.537Z"
+  "schemaVersion": "3.0.2",
+  "updatedAt": "2019-02-26T06:19:41.080Z",
+  "devdoc": {
+    "methods": {},
+    "title": "ERC20Basic"
+  },
+  "userdoc": {
+    "methods": {}
+  }
 }

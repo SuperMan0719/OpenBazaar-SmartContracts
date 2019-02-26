@@ -116,6 +116,7 @@ contract OBRewards is Ownable {
         nonZeroAddress(_escrowContractAddress)
         nonZeroAddress(obTokenAddress)
     {
+
         require(
             _promotedSellers.length > 0,
             "Please provide atleast 1 promoted seller"
@@ -141,6 +142,7 @@ contract OBRewards is Ownable {
         );
 
         for (uint256 i = 0; i < _promotedSellers.length; i++) {
+
             require(
                 _promotedSellers[i] != address(0),
                 "Please provide valid address for promoted seller"
@@ -224,6 +226,7 @@ contract OBRewards is Ownable {
             uint256 rewardAmount
         )
     {
+
         return sellerVsBuyerRewards[seller][buyer];
     }
 
@@ -255,6 +258,7 @@ contract OBRewards is Ownable {
         onlyOwner
         nonZeroAddress(receiver)
     {
+
         uint256 amount = obToken.balanceOf(this);
 
         obToken.transfer(receiver, amount);
@@ -271,6 +275,7 @@ contract OBRewards is Ownable {
         onlyOwner
     {
         maxRewardPerSeller = _maxRewardPerSeller;
+
     }
 
     /**
@@ -315,6 +320,7 @@ contract OBRewards is Ownable {
         );
         buyer = sellerVsBuyers[seller][index];
         return buyer;
+
     }
 
     /**
@@ -330,8 +336,8 @@ contract OBRewards is Ownable {
     }
 
     /**
-    * @dev ALlows owner to set endDate
-    * @param _endDate date the promotion ends
+    * @dev ALlows owner to set date
+    * @param _endDate End date of rewards
     */
     function setEndDate(uint256 _endDate) external onlyOwner {
         require(
@@ -361,6 +367,7 @@ contract OBRewards is Ownable {
         view
         returns (uint256 amount)
     {
+
         (
             address buyer,
             address seller,
@@ -377,6 +384,7 @@ contract OBRewards is Ownable {
         );
 
         return amount;
+
     }
 
     /**
@@ -398,11 +406,9 @@ contract OBRewards is Ownable {
         rewardsRunning
 
     {
+
         //1. Execute transaction
-        //SECURITY NOTE: `escrowContract` is a known and trusted contract, but
-        //the `execute` function transfers ETH or Tokens, and therefore hands
-        //over control of the logic flow to a potential attacker.
-        escrowContract.execute(
+        escrowContract.execute( // this is a known and trusted contract
             sigV,
             sigR,
             sigS,
@@ -454,6 +460,8 @@ contract OBRewards is Ownable {
                 lastModified
             );
 
+            
+
             uint256 contractBalance = obToken.balanceOf(this);
 
             if (rewardAmount > contractBalance) {
@@ -464,32 +472,33 @@ contract OBRewards is Ownable {
                 emit UnsuccessfulClaim(scriptHashes[i], seller, buyer);
                 continue;
             }
-
+            
             //6. Update state
+            //edge case when multiple entries for same buyer can be made.
+            //But not an issue for us
             sellerVsBuyers[seller].push(buyer);
-
+            
             sellerVsBuyerRewards[seller][buyer] = sellerVsBuyerRewards[
                 seller
             ][
                 buyer
             ].add(rewardAmount);
-
+        
             sellerVsRewardsDistributed[seller] = sellerVsRewardsDistributed[
                 seller
             ].add(rewardAmount);
-
             totalTokensDistributed = totalTokensDistributed.add(rewardAmount);
 
-            //7. Emit event
+            //7. Transfer token
+            obToken.transfer(buyer, rewardAmount);
+
+            //8. Emit event
             emit SuccessfulClaim(
                 scriptHashes[i],
                 seller,
                 buyer,
                 rewardAmount
             );
-
-            //8. Transfer token
-            obToken.transfer(buyer, rewardAmount);
         }
 
     }
@@ -507,7 +516,7 @@ contract OBRewards is Ownable {
             uint256 lastModified
         )
         {
-        // calling a trusted contract's view function
+
         (
             ,
             lastModified,
@@ -564,18 +573,11 @@ contract OBRewards is Ownable {
             //Transaction has not been released
             verified = false;
         }
-        else if (
-            //Calling a trusted contract's view function
-            !escrowContract.checkVote(scriptHash, seller)
-        )
-        {
+        else if (!escrowContract.checkVote(scriptHash, seller)) {
             //Seller was not one of the signers
             verified = false;
         }
-        else if (
-            //Calling a trusted contract's view function
-            !escrowContract.checkBeneficiary(scriptHash, seller)
-        ) {
+        else if (!escrowContract.checkBeneficiary(scriptHash, seller)) {
             //Seller was not one of the beneficiaries.
             //This means the transaction was either cancelled or
             //completely refunded.

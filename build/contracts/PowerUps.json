@@ -11692,62 +11692,6 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.2",
-  "updatedAt": "2019-02-26T06:19:41.067Z",
-  "devdoc": {
-    "methods": {
-      "addPowerUp(string,uint256,bytes32)": {
-        "details": "Add new PowerUp",
-        "params": {
-          "amount": "Amount of tokens to burn",
-          "contentAddress": "IPFS/IPNS address, peerID, etc",
-          "keyword": "Bytes32 search term, reserved keyword, etc"
-        },
-        "return": "id Index of the PowerUp in the powerUps[] array"
-      },
-      "addPowerUps(string,uint256[],bytes32[])": {
-        "details": "Add multiple PowerUps for different keywords but the same content address This is intended to be used for associating a given contentAddress with multiple search keywords by batching the PowerUps together. This is simply to allow the creation of multiple PowerUps with a single function call.",
-        "params": {
-          "amounts": "Amount of tokens to be burnt for each PowerUp",
-          "contentAddress": "IPFS/IPNS address of the listing",
-          "keywords": "Keywords in bytes32 form for each PowerUp Be sure to keep arrays small enough so as not to exceed the block gas limit."
-        }
-      },
-      "getPowerUpIdAtIndex(bytes32,uint256)": {
-        "details": "returns the id (index in the powerUps[] array) of the PowerUp refered to by the `index`th element of a given `keyword` array. ie: getPowerUpIdAtIndex(\"shoes\",23) will return the id of the 23rd PowerUp that burned tokens in association with the keyword \"shoes\".",
-        "params": {
-          "index": "Index at which id of the PowerUp needs to be fetched",
-          "keyword": "Keyword string for which the PowerUp ids will be fetched"
-        }
-      },
-      "getPowerUpIds(bytes32)": {
-        "details": "This method will return an array of ids of PowerUps associated with the given keyword",
-        "params": {
-          "keyword": "The keyword for which the array of PowerUps will be fetched"
-        }
-      },
-      "getPowerUpInfo(uint256)": {
-        "details": "Returns info about a given PowerUp",
-        "params": {
-          "id": "The index of the PowerUp in the powerUps array"
-        }
-      },
-      "noOfPowerUps(bytes32)": {
-        "details": "returns how many powerups are available for the given keyword",
-        "params": {
-          "keyword": "Keyword for which the result needs to be fetched"
-        }
-      },
-      "topUpPowerUp(uint256,uint256)": {
-        "details": "Topup a PowerUp's balance (that is, burn more tokens in association with am existing PowerUp)",
-        "params": {
-          "amount": "Amount of tokens to burn",
-          "id": "The index of the PowerUp in the powerUps array"
-        }
-      }
-    }
-  },
-  "userdoc": {
-    "methods": {}
-  }
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2019-02-26T06:26:12.989Z"
 }

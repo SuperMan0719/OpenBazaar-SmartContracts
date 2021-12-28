@@ -11,17 +11,17 @@ import "openzeppelin-solidity/contracts/utils/Address.sol";
 */
 contract ContractManager is Ownable {
 
+    event VersionAdded(
+        string contractName,
+        string versionName,
+        address indexed implementation
+    );
+
     event VersionUpdated(
         string contractName,
         string versionName,
         Status status,
         BugLevel bugLevel
-    );
-
-    event VersionAdded(
-        string contractName,
-        string versionName,
-        address indexed implementation
     );
 
     event VersionRecommended(string contractName, string versionName);
@@ -80,12 +80,6 @@ contract ContractManager is Ownable {
     * recommended versions
     */
     mapping(string=>string) internal contractVsRecommendedVersion;
-
-    modifier contractRegistered(string memory contractName) {
-
-        require(contractExists[contractName], "Contract does not exists");
-        _;
-    }
     
     modifier nonZeroAddress(address _address) {
         require(
@@ -94,7 +88,12 @@ contract ContractManager is Ownable {
         );
         _;
     }
-    
+
+    modifier contractRegistered(string memory contractName) {
+
+        require(contractExists[contractName], "Contract does not exists");
+        _;
+    }    
 
     modifier versionExists(
         string memory contractName, 

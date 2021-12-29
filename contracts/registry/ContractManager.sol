@@ -11,17 +11,17 @@ import "openzeppelin-solidity/contracts/utils/Address.sol";
 */
 contract ContractManager is Ownable {
 
-    event VersionAdded(
-        string contractName,
-        string versionName,
-        address indexed implementation
-    );
-
     event VersionUpdated(
         string contractName,
         string versionName,
         Status status,
         BugLevel bugLevel
+    );
+
+    event VersionAdded(
+        string contractName,
+        string versionName,
+        address indexed implementation
     );
 
     event VersionRecommended(string contractName, string versionName);
@@ -277,19 +277,6 @@ contract ContractManager is Ownable {
     }
 
     /**
-    * @dev Get total count of versions for the contract
-    * @param contractName Name of the contract
-    */
-    function getVersionCountForContract(string calldata contractName)
-        external
-        view
-        returns (uint256 count)
-    {
-        count = contractVsVersionString[contractName].length;
-        return count;
-    }
-
-    /**
     * @dev Returns the contract at a given index in the contracts array
     * @param index The index to be searched for
     */
@@ -300,6 +287,19 @@ contract ContractManager is Ownable {
     {
         contractName = contracts[index];
         return contractName;
+    }
+
+    /**
+    * @dev Get total count of versions for the contract
+    * @param contractName Name of the contract
+    */
+    function getVersionCountForContract(string calldata contractName)
+        external
+        view
+        returns (uint256 count)
+    {
+        count = contractVsVersionString[contractName].length;
+        return count;
     }
 
     /**
